@@ -27,7 +27,7 @@ namespace AuctionApp.Core
         private static readonly List<Auction> _auctions = new List<Auction>();
         static MockAuctionService()
         {
-            Auction auction1 = new Auction("Vintage Car", "A rare vintage car", "user@test.com", 5000m, DateTime.Now.AddDays(10));
+            Auction auction1 = new Auction("Vintage Car", "A rare vintage car", "user@test.com", 5000m, DateTime.Now.AddDays(2));
             Auction auction2 = new Auction("Painting", "Beautiful landscape painting", "user@test.se", 2000m, DateTime.Now.AddDays(5));
 
             Bid bid1 = new Bid("user2@test.com", 5100m);  // User2 places a bid
