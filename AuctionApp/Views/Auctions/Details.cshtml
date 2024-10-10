@@ -1,3 +1,4 @@
+@using AuctionApp.Core
 @model AuctionApp.Models.Auction.AuctionDetailsVm
 
 @{
@@ -62,7 +63,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model.BidsVm)
+        @foreach (var item in Model.BidsVm.OrderByDescending(b => b.BidAmount))
         {
         <tr>
             <td>
