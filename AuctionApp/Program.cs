@@ -1,5 +1,14 @@
+using AuctionApp.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using AuctionApp.Data;
 var builder = WebApplication.CreateBuilder(args);
 
+// identity
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>    
+    options.UseMySQL(builder.Configuration.GetConnectionString("IdentityDbConnection")));
+builder.Services.AddDefaultIdentity<AppIdentityUser>(options => 
+    options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -15,7 +24,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.MapRazorPages(); 
 app.UseRouting();
 
 app.UseAuthorization();
