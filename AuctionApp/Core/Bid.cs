@@ -14,19 +14,20 @@ public class Bid
     
     public decimal BidAmount { get; private set; }
     
-    private DateTime _bidDate;
+    public DateTime BidDate { get; private set; }
 
-    public Bid(decimal bidAmount)
+    public Bid(string user, decimal bidAmount)
     {
         BidId = Guid.NewGuid();
+        User = user;
         BidAmount = bidAmount;
-        _bidDate = DateTime.Now;
+        BidDate = DateTime.Now;
     }
     
     public Bid() {}
 
     public override string ToString()
     {
-        return $"{BidId}: {User}: {BidAmount}: {_bidDate}: ";
+        return $"{BidId}: {User}: {BidAmount}: {BidDate}: ";
     }
 }

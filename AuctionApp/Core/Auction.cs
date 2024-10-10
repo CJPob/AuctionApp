@@ -38,7 +38,7 @@ public class Auction
 
     
     //Business operations, // kanske behöver ta in en parameter till, vem är det som försöker lägga ett bud?
-    public void AddBid(Bid bid)
+    public void AddBid(string user, Bid bid)
     {
         // might need a validation as to see if the auction has ended or not. 
         // validation, ,only place bids that are higher than the opening bid

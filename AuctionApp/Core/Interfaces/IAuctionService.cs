@@ -9,4 +9,6 @@ public interface IAuctionService
     void CreateAuction(string userName, string title, string description, decimal openingBid, DateTime expirationDate);
 
     List<Auction> GetActiveAuctions();
+    
+    public Auction GetAuctionById(Guid id);
 }
