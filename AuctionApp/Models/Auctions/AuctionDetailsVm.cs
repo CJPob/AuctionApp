@@ -18,7 +18,7 @@ public class AuctionDetailsVm
     public decimal OpeningBid { get; private set; }
     
     [Display(Name = "Ends in")]
-    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
     public DateTime ExpirationDate { get; private set; }
 
     public List<BidVm> BidsVm { get; set; } = new();

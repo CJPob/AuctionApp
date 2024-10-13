@@ -8,7 +8,17 @@ public interface IAuctionService
 {
     void CreateAuction(string userName, string title, string description, decimal openingBid, DateTime expirationDate);
 
+    void PlaceBid(string userName, decimal bidAmount, Guid auctionId);
+
     List<Auction> GetActiveAuctions();
     
-    public Auction GetAuctionById(Guid id);
+    List<Auction> GetAuctionByUserBids(string userName);
+
+    List<Auction> GetAuctionByUserName(string userName);
+    
+    Auction GetAuctionDetails(Guid id);
+    
+    void EditDescription(string userName, string description, Guid auctionId);
+    List<Auction> GetAuctionUserHasWon(string userName);
+
 }

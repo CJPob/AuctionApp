@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace AuctionApp.Core;
 
@@ -23,7 +23,6 @@ public class Auction
     private List<Bid> _bids = new List<Bid>();
     public IEnumerable<Bid> Bids => _bids;
 
-    // Constructor
     public Auction(string name, string description, string userName, decimal openingBid, DateTime expirationDate)
     {
         Id = Guid.NewGuid();
@@ -35,15 +34,21 @@ public class Auction
     }
     
     public Auction() {}
-
     
-    //Business operations, // kanske behöver ta in en parameter till, vem är det som försöker lägga ett bud?
-    public void AddBid(string user, Bid bid)
+    public void AddBid(Bid bid)
     {
-        // might need a validation as to see if the auction has ended or not. 
-        // validation, ,only place bids that are higher than the opening bid
-        // Man ska inte få placera bud på sin egna auction
-        _bids.Add(bid);
+        decimal highestBid = _bids.Any() ? _bids.Max(b => b.BidAmount) : OpeningBid;
+
+        if (bid.User == User)
+            throw new InvalidOperationException("Auction owner cannot place a bid on their own auction.");
+
+        if (DateTime.Now > ExpirationDate)
+            throw new InvalidOperationException("The auction has already expired.");
+
+        if (bid.BidAmount <= highestBid)
+            throw new ArgumentOutOfRangeException(nameof(bid.BidAmount), "Bid amount must be higher than the current highest bid.");
+
+        _bids.Add(bid); 
     }
 
     public override string ToString()

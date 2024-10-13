@@ -65,22 +65,25 @@
         <tbody>
         @foreach (var item in Model.BidsVm.OrderByDescending(b => b.BidAmount))
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BidAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BidDate)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BidAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BidDate)
+                </td>
+            </tr>
         }
         </tbody>
     </table>
 </div>
+
+<p>
+    <a asp-action="PlaceBid" asp-route-auctionId="@Model.Id">Place bid</a>
+</p>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

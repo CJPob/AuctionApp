@@ -1,14 +1,19 @@
 using AuctionApp.Areas.Identity.Data;
 using AuctionApp.Core;
 using AuctionApp.Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AuctionApp.Data;
+using AuctionApp.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// auction
+builder.Services.AddDbContext<AuctionDbContext>(options =>    
+    options.UseMySQL(builder.Configuration.GetConnectionString("AuctionDbConnection")));
 
 
 // identity
@@ -17,8 +22,15 @@ builder.Services.AddDbContext<AppIdentityDbContext>(options =>
 builder.Services.AddDefaultIdentity<AppIdentityUser>(options => 
     options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
 
-// dependency injection of service into controller for mock
-builder.Services.AddScoped<IAuctionService, MockAuctionService>();
+// dependency injection of service into controller for true
+builder.Services.AddScoped<IAuctionService, AuctionService>();
+
+//dependency inj for persistence into service
+
+builder.Services.AddScoped<IAuctionPersistence, MySqlAucionPersistence>();
+
+// mapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
