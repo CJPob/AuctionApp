@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace AuctionApp.Core;
 
 /// <summary>
@@ -15,19 +13,22 @@ public class Bid
     public decimal BidAmount { get; private set; }
     
     public DateTime BidDate { get; private set; }
+    
+    public Guid AuctionId { get; private set; }
 
-    public Bid(string user, decimal bidAmount)
+    public Bid(string user, decimal bidAmount, Guid auctionId)
     {
         BidId = Guid.NewGuid();
         User = user;
         BidAmount = bidAmount;
         BidDate = DateTime.Now;
+        AuctionId = auctionId;
     }
     
     public Bid() {}
 
     public override string ToString()
     {
-        return $"{BidId}: {User}: {BidAmount}: {BidDate}: ";
+        return $"{BidId}: {User}: {BidAmount}: {BidDate}: {AuctionId}";
     }
 }

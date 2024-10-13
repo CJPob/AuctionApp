@@ -1,10 +1,13 @@
+using System.Data;
 using AuctionApp.Core;
 using AuctionApp.Core.Interfaces;
 using AuctionApp.Models.Auction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionApp.Controllers
 {
+    [Authorize]
     public class AuctionsController : Controller
     {
         private IAuctionService _auctionService;
@@ -14,90 +17,163 @@ namespace AuctionApp.Controllers
             _auctionService = auctionService;
         }
 
-        // GET: AuctionsController
-        public ActionResult Index()
+        [AllowAnonymous]
+        public ActionResult Index(string filter = "active")
         {
-            List<Auction> auctions = _auctionService.GetActiveAuctions();
+            List<Auction> auctions = new List<Auction>();
+            string userName = User.Identity.Name;
+
+            if (filter == "active")
+            {
+                auctions = _auctionService.GetActiveAuctions();
+            }
+            else if (filter == "userBids")
+            {
+                auctions = _auctionService.GetAuctionByUserBids(userName);
+            }
+
             List<AuctionVm> auctionVms = new List<AuctionVm>();
             foreach (var auction in auctions)
             {
                 auctionVms.Add(AuctionVm.FromAuction(auction));
             }
+
+            ViewData["Filter"] = filter;
             return View(auctionVms);
         }
 
-        // GET: AuctionsController/Details/5
         public ActionResult Details(Guid id)
         {
-            Auction auctions = _auctionService.GetAuctionById(id);
-            if (auctions == null) return BadRequest();
-            
-            AuctionDetailsVm detailsVm = AuctionDetailsVm.FromAuction(auctions);
-            return View(detailsVm);
+            try
+            {
+                Auction auction = _auctionService.GetAuctionDetails(id);
+                if (auction == null) return BadRequest();
+
+                AuctionDetailsVm detailsVm = AuctionDetailsVm.FromAuction(auction);
+                return View(detailsVm);
+            }
+            catch (DataException ex)
+            {
+                return BadRequest();
+            }
         }
-/*
-        // GET: AuctionsController/Create
+
         public ActionResult Create()
         {
             return View();
         }
-
-        // POST: AuctionsController/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CreateAuctionVm createAuctionVm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    string userName = User.Identity.Name;
+                    string name = createAuctionVm.AuctionName;
+                    string description = createAuctionVm.AuctionDescription;
+                    decimal openingBid = createAuctionVm.OpeningBid;
+                    DateTime expirationDate = createAuctionVm.ExpirationDate;
+
+                    _auctionService.CreateAuction(userName, name, description, openingBid, expirationDate);
+                    return RedirectToAction("MyAccount");
+                }
+
+                return View(createAuctionVm);
             }
-            catch
+            catch (DataException)
             {
-                return View();
+                return View(createAuctionVm);
             }
         }
 
-        // GET: AuctionsController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult MyAccount(string filter = "myAuctions")
         {
+            List<Auction> auctions = new List<Auction>();
+            if (filter == "myAuctions")
+            {
+                auctions = _auctionService.GetAuctionByUserName(User.Identity.Name);
+            } else if (filter == "wonAuctions")
+            {
+                auctions = _auctionService.GetAuctionUserHasWon(User.Identity.Name);
+            }
+
+            List<AuctionVm> auctionVms = new List<AuctionVm>();
+            foreach (var auction in auctions)
+            {
+                auctionVms.Add(AuctionVm.FromAuction(auction));
+            }
+
+            ViewData["Filter"] = filter;
+            return View(auctionVms);
+        }
+
+        public ActionResult PlaceBid(Guid auctionId)
+        {
+            if (IsUserOwnerOfAuction(auctionId)) return BadRequest();
+
+            ViewBag.AuctionId = auctionId;
             return View();
         }
 
-        // POST: AuctionsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult PlaceBid(Guid auctionId, PlaceBidVm placeBidVm)
         {
+            if (IsUserOwnerOfAuction(auctionId)) return BadRequest();
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    string userName = User.Identity.Name;
+                    decimal bidPrice = placeBidVm.BidAmount;
+                    _auctionService.PlaceBid(userName, bidPrice, auctionId);
+                    return RedirectToAction("Details", new { id = auctionId });
+                }
+                ViewBag.AuctionId = auctionId;
+                return View(placeBidVm);
             }
-            catch
+            catch (DataException)
             {
-                return View();
+                ViewBag.AuctionId = auctionId;
+                return View(placeBidVm);
             }
         }
-
-        // GET: AuctionsController/Delete/5
-        public ActionResult Delete(int id)
+        
+        public ActionResult Edit(Guid auctionId)
         {
+            if (!IsUserOwnerOfAuction(auctionId)) return BadRequest();
+            
+            ViewBag.AuctionId = auctionId;
             return View();
         }
 
-        // POST: AuctionsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Edit(Guid auctionId, EditAuctionDescriptionVm editAuctionDescriptionVm)
         {
-            try
+            if (!IsUserOwnerOfAuction(auctionId)) return BadRequest();
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                string userName = User.Identity.Name;
+                string description = editAuctionDescriptionVm.Description;
+                _auctionService.EditDescription(userName, description, auctionId);
+                return RedirectToAction("Details", new { id = auctionId });
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.AuctionId = auctionId; 
+            return View(editAuctionDescriptionVm);
         }
-    }*/
+        private bool IsUserOwnerOfAuction(Guid auctionId)
+        {
+            Auction auction = _auctionService.GetAuctionDetails(auctionId);
+            if (auction == null)
+            {
+                return false;
+            }
+            return auction.User.Equals(User.Identity.Name);
+        }
     }
 }
+

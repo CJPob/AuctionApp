@@ -1,0 +1,42 @@
+@model AuctionApp.Models.Auction.PlaceBidVm
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Place Bid</title>
+</head>
+<body>
+
+<h4>Place a Bid</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PlaceBid" method="post">
+            <!-- Hidden field to pass auctionId to the controller -->
+            <input type="hidden" name="auctionId" value="@ViewBag.AuctionId" />
+
+            <!-- Validation Summary -->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Bid Amount Input -->
+            <div class="form-group">
+                <label asp-for="BidAmount" class="control-label"></label>
+                <input asp-for="BidAmount" class="form-control" />
+                <span asp-validation-for="BidAmount" class="text-danger"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                <input type="submit" value="Submit Bid" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

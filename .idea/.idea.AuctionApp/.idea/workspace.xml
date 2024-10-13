@@ -9,10 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b24f690-8d93-4e11-b1de-355f685ea305" name="Changes" comment="New repository for an auction application using ASP.NET">
+    <list default="true" id="1b24f690-8d93-4e11-b1de-355f685ea305" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Mappers/AuctionProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Mappers/BidProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/AuctionDb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/AuctionDbContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/BidDb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/MySqlProjectPersistence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/AuctionApp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/AuctionApp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/Auction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/Auction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/Bid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/Bid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/Interfaces/IAuctionPersistence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/Interfaces/IAuctionPersistence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Models/Auctions/BidVm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Models/Auctions/BidVm.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Shared/_Layout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +63,7 @@
     ".NET Launch Settings Profile.AuctionApp: IIS Express.executor": "Run",
     ".NET Launch Settings Profile.AuctionApp: https.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "1-user-registration",
+    "git-widget-placeholder": "4-list-ongoing-auctions",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -118,7 +128,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728576700115</updated>
-      <workItem from="1728576701187" duration="6183000" />
+      <workItem from="1728576701187" duration="29979000" />
     </task>
     <task id="LOCAL−00001" summary="New repository for an auction application using ASP.NET">
       <option name="closed" value="true" />
