@@ -7,18 +7,21 @@ public class AuctionVm
     [ScaffoldColumn(false)]
     public Guid Id { get; private set; }
     
+    [Display(Name = "Item")]
     public string Name { get; set; }
     
+    [Display(Name = "Description")]
     public string Desciption { get; set; }
     
+    [Display(Name = "Placed by")]
     public string User { get; set; }
     
-    [Display(Name = "Opening bid")]
+    [Display(Name = "Start bid")]
     public decimal OpeningBid { get; private set; }
     
     [Display(Name = "Ends in")]
-    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-    public DateTime ExpirationDate { get; private set; }
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
+    public DateTime ExpirationDate { get; private set; }  
 
     public static AuctionVm FromAuction(Core.Auction auction)
     {
