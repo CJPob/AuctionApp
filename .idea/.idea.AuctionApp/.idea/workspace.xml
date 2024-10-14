@@ -10,20 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b24f690-8d93-4e11-b1de-355f685ea305" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AuctionApp/Mappers/AuctionProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuctionApp/Mappers/BidProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/AuctionDb.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/AuctionDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/BidDb.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/MySqlProjectPersistence.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/AuctionApp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/AuctionApp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/Auction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/Auction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/Bid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/Bid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/Interfaces/IAuctionPersistence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/Interfaces/IAuctionPersistence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Login.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Login.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Register.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Register.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Controllers/AuctionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Controllers/AuctionsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Core/AuctionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/AuctionService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Models/Auctions/AuctionVm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Models/Auctions/AuctionVm.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/Models/Auctions/BidVm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Models/Auctions/BidVm.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Edit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/MyAccount.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/MyAccount.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Home/Privacy.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Shared/_Layout.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,22 +37,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "CJPob"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;CJPob&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/CJPob/AuctionApp.git",
-    "accountId": "0e93437f-3973-4d90-a234-2ec896d0b00e"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/CJPob/AuctionApp.git&quot;,
+    &quot;accountId&quot;: &quot;0e93437f-3973-4d90-a234-2ec896d0b00e&quot;
   }
-}]]></component>
+}</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2nFlS0FQZUXjROpFoSNz1eUOIoP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -63,7 +64,7 @@
     ".NET Launch Settings Profile.AuctionApp: IIS Express.executor": "Run",
     ".NET Launch Settings Profile.AuctionApp: https.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "4-list-ongoing-auctions",
+    "git-widget-placeholder": "reorganize-layout-redirections",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

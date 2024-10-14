@@ -25,8 +25,7 @@ builder.Services.AddDefaultIdentity<AppIdentityUser>(options =>
 // dependency injection of service into controller for true
 builder.Services.AddScoped<IAuctionService, AuctionService>();
 
-//dependency inj for persistence into service
-
+//dependency inj for persistence into service  
 builder.Services.AddScoped<IAuctionPersistence, MySqlAucionPersistence>();
 
 // mapper
@@ -46,11 +45,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.MapRazorPages(); 
 app.UseRouting();
-
 app.UseAuthorization();
 
+// Set AuctionsController's Index page as the default route /home page
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auctions}/{action=Index}/{id?}"); 
 
 app.Run();

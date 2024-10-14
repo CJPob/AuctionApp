@@ -20,26 +20,33 @@ namespace AuctionApp.Controllers
         [AllowAnonymous]
         public ActionResult Index(string filter = "active")
         {
-            List<Auction> auctions = new List<Auction>();
-            string userName = User.Identity.Name;
-
-            if (filter == "active")
+            try
             {
-                auctions = _auctionService.GetActiveAuctions();
-            }
-            else if (filter == "userBids")
-            {
-                auctions = _auctionService.GetAuctionByUserBids(userName);
-            }
+                List<Auction> auctions = new List<Auction>();
+                string userName = User.Identity.Name;
 
-            List<AuctionVm> auctionVms = new List<AuctionVm>();
-            foreach (var auction in auctions)
-            {
-                auctionVms.Add(AuctionVm.FromAuction(auction));
-            }
+                if (filter == "active")
+                {
+                    auctions = _auctionService.GetActiveAuctions();
+                }
+                else if (filter == "userBids")
+                {
+                    auctions = _auctionService.GetAuctionByUserBids(userName);
+                }
 
-            ViewData["Filter"] = filter;
-            return View(auctionVms);
+                List<AuctionVm> auctionVms = new List<AuctionVm>();
+                foreach (var auction in auctions)
+                {
+                    auctionVms.Add(AuctionVm.FromAuction(auction));
+                }
+
+                ViewData["Filter"] = filter;
+                return View(auctionVms);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         public ActionResult Details(Guid id)
@@ -47,12 +54,23 @@ namespace AuctionApp.Controllers
             try
             {
                 Auction auction = _auctionService.GetAuctionDetails(id);
-                if (auction == null) return BadRequest();
-
                 AuctionDetailsVm detailsVm = AuctionDetailsVm.FromAuction(auction);
+                
+                // this to toggle redirection based on previous page url
+                string referrerUrl = Request.Headers["Referer"].ToString();
+                ViewData["ReferrerUrl"] = referrerUrl;
+                
+                // add the auction owner's username to ViewBag
+                // to disable PlaceBid link in the list own auctions 
+                ViewBag.AuctionOwner = auction.User;
+                
                 return View(detailsVm);
             }
-            catch (DataException ex)
+            catch (DataException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -83,32 +101,48 @@ namespace AuctionApp.Controllers
 
                 return View(createAuctionVm);
             }
-            catch (DataException)
+            catch (DataException ex)
             {
+                ModelState.AddModelError("", ex.Message);
+                return View(createAuctionVm);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "An unexpected error occurred.");
                 return View(createAuctionVm);
             }
         }
 
         public ActionResult MyAccount(string filter = "myAuctions")
         {
-            List<Auction> auctions = new List<Auction>();
-            if (filter == "myAuctions")
+            try
             {
-                auctions = _auctionService.GetAuctionByUserName(User.Identity.Name);
-            } else if (filter == "wonAuctions")
-            {
-                auctions = _auctionService.GetAuctionUserHasWon(User.Identity.Name);
-            }
+                List<Auction> auctions = new List<Auction>();
+                string userName = User.Identity.Name;
 
-            List<AuctionVm> auctionVms = new List<AuctionVm>();
-            foreach (var auction in auctions)
-            {
-                auctionVms.Add(AuctionVm.FromAuction(auction));
-            }
+                if (filter == "myAuctions")
+                {
+                    auctions = _auctionService.GetAuctionByUserName(userName);
+                } 
+                else if (filter == "wonAuctions")
+                {
+                    auctions = _auctionService.GetAuctionUserHasWon(userName);
+                }
 
-            ViewData["Filter"] = filter;
-            return View(auctionVms);
+                // fetch and sort by expiration date descending (newest first)
+                var auctionVms = auctions.Select(a => AuctionVm.FromAuction(a))
+                    .OrderByDescending(a => a.ExpirationDate)
+                    .ToList();
+
+                ViewData["Filter"] = filter;
+                return View(auctionVms);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
+
 
         public ActionResult PlaceBid(Guid auctionId)
         {
@@ -123,6 +157,7 @@ namespace AuctionApp.Controllers
         public ActionResult PlaceBid(Guid auctionId, PlaceBidVm placeBidVm)
         {
             if (IsUserOwnerOfAuction(auctionId)) return BadRequest();
+
             try
             {
                 if (ModelState.IsValid)
@@ -135,8 +170,15 @@ namespace AuctionApp.Controllers
                 ViewBag.AuctionId = auctionId;
                 return View(placeBidVm);
             }
-            catch (DataException)
+            catch (InvalidOperationException ex)
             {
+                ModelState.AddModelError("", ex.Message);
+                ViewBag.AuctionId = auctionId;
+                return View(placeBidVm);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "An unexpected error occurred.");
                 ViewBag.AuctionId = auctionId;
                 return View(placeBidVm);
             }
@@ -145,9 +187,25 @@ namespace AuctionApp.Controllers
         public ActionResult Edit(Guid auctionId)
         {
             if (!IsUserOwnerOfAuction(auctionId)) return BadRequest();
-            
-            ViewBag.AuctionId = auctionId;
-            return View();
+
+            try
+            {
+                Auction auction = _auctionService.GetAuctionDetails(auctionId);
+                if (auction == null)
+                    return NotFound();
+
+                var editVm = new EditAuctionDescriptionVm
+                {
+                    Description = auction.Description
+                };
+
+                ViewBag.AuctionId = auctionId;
+                return View(editVm);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost]
@@ -155,25 +213,47 @@ namespace AuctionApp.Controllers
         public ActionResult Edit(Guid auctionId, EditAuctionDescriptionVm editAuctionDescriptionVm)
         {
             if (!IsUserOwnerOfAuction(auctionId)) return BadRequest();
-            if (ModelState.IsValid)
+
+            try
             {
-                string userName = User.Identity.Name;
-                string description = editAuctionDescriptionVm.Description;
-                _auctionService.EditDescription(userName, description, auctionId);
-                return RedirectToAction("Details", new { id = auctionId });
+                if (ModelState.IsValid)
+                {
+                    string userName = User.Identity.Name;
+                    string description = editAuctionDescriptionVm.Description;
+                    _auctionService.EditDescription(userName, description, auctionId);
+                    return RedirectToAction("Details", new { id = auctionId });
+                }
+                ViewBag.AuctionId = auctionId; 
+                return View(editAuctionDescriptionVm);
             }
-            ViewBag.AuctionId = auctionId; 
-            return View(editAuctionDescriptionVm);
+            catch (DataException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                ViewBag.AuctionId = auctionId;
+                return View(editAuctionDescriptionVm);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "An unexpected error occurred.");
+                ViewBag.AuctionId = auctionId;
+                return View(editAuctionDescriptionVm);
+            }
         }
         private bool IsUserOwnerOfAuction(Guid auctionId)
         {
-            Auction auction = _auctionService.GetAuctionDetails(auctionId);
-            if (auction == null)
+            try
+            {
+                Auction auction = _auctionService.GetAuctionDetails(auctionId);
+                if (auction == null)
+                {
+                    return false;
+                }
+                return auction.User.Equals(User.Identity.Name, StringComparison.OrdinalIgnoreCase);
+            }
+            catch
             {
                 return false;
             }
-            return auction.User.Equals(User.Identity.Name);
-        }
+        } 
     }
-}
-
+}   

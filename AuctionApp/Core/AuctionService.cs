@@ -3,7 +3,6 @@ using AuctionApp.Core.Interfaces;
 
 namespace AuctionApp.Core;
 
-//parametrar från presentationslagret och omvandlar till 
 public class AuctionService : IAuctionService
 {
     private readonly IAuctionPersistence _auctionPersistence;
