@@ -1,35 +1,56 @@
 using System.Data;
 using AuctionApp.Core.Interfaces;
+using AuctionApp.Persistence.Interfaces;
 
 namespace AuctionApp.Core;
 
 public class AuctionService : IAuctionService
 {
-    private readonly IAuctionPersistence _auctionPersistence;
+    // 3
+    // dependency injectione
+    // private readonly IAuctionPersistence _auctionPersistence;
     
+    // 4
+    // dependency injections 
+    private readonly IAuctionRepository _auctionRepository;
+    private readonly IBidRepository _bidRepository; 
+    
+    // 3 constructor 
+    /*
     public AuctionService(IAuctionPersistence auctionPersistence)
     {
-        _auctionPersistence = auctionPersistence;
+        auctionPersistence = _auctionPersistence; 
+    } 
+    */
+    
+    // 4 constructor 
+    public AuctionService(IAuctionRepository auctionRepository, IBidRepository bidRepository)
+    {
+        _auctionRepository = auctionRepository;
+        _bidRepository = bidRepository;
     }
     
     public void CreateAuction(string userName, string name, string description, decimal openingBid, DateTime expirationDate)
     {
         if (userName == null || name == null || openingBid < 1 || expirationDate < DateTime.Now) throw new DataException("Invalid auction creation");
         Auction auction = new Auction(name, description, userName, openingBid, expirationDate);
-        _auctionPersistence.SaveAuction(auction);
+        //  _auctionPersistence.SaveAuction(auction);
+        _auctionRepository.AddAuction(auction);
     }
     
     public void PlaceBid(string userName, decimal bidAmount, Guid auctionId)
     {
         try
         {
-            Auction auction = _auctionPersistence.GetAuctionById(auctionId);
+            // Auction auction = _auctionPersistence.GetAuctionById(auctionId);
+            Auction auction = _auctionRepository.GetAuctionById(auctionId);
             if (auction == null)
                 throw new InvalidOperationException("Auction not found.");
         
             Bid bid = new Bid(userName, bidAmount, auctionId);
             auction.AddBid(bid);
-            _auctionPersistence.SaveBid(bid);
+            //_auctionPersistence.SaveBid(bid);
+            _bidRepository.AddBid(bid);
         }
         catch (ArgumentOutOfRangeException ex)
         {
@@ -47,25 +68,25 @@ public class AuctionService : IAuctionService
 
     public List<Auction> GetActiveAuctions()
     {
-        List<Auction> auctions = _auctionPersistence.GetActiveAuctions();
+        List<Auction> auctions = _auctionRepository.GetActiveAuctions();
         return auctions;
     }
     
     public Auction GetAuctionDetails(Guid id)
     {
-        Auction auction = _auctionPersistence.GetAuctionById(id);
+        Auction auction = _auctionRepository.GetAuctionById(id);
         return auction;
     }
 
     public List<Auction> GetAuctionByUserBids(string userName)
     {
-        List<Auction> auctions = _auctionPersistence.GetAuctionByUserBids(userName);
+        List<Auction> auctions = _auctionRepository.GetAuctionByUserBids(userName);
         return auctions; 
     }
 
     public void EditDescription(string userName, string description, Guid auctionId)
     {
-        Auction auction = _auctionPersistence.GetAuctionById(auctionId);
+        Auction auction = _auctionRepository.GetAuctionById(auctionId);
     
         if (auction == null)
         {
@@ -74,18 +95,18 @@ public class AuctionService : IAuctionService
 
         auction.Description = description;
 
-        _auctionPersistence.EditDescription(auction);
+        _auctionRepository.EditDescription(auction);
     }
 
     public List<Auction> GetAuctionByUserName(string userName)
     {
-        List<Auction> auctions = _auctionPersistence.GetAuctionByUserName(userName);
+        List<Auction> auctions = _auctionRepository.GetAuctionByUserName(userName);
         return auctions;
     }
 
     public List<Auction> GetAuctionUserHasWon(string userName)
     {
-        List<Auction> auctions = _auctionPersistence.GetAuctionUserHasWon(userName);
+        List<Auction> auctions = _auctionRepository.GetAuctionUserHasWon(userName);
         return auctions;
     }
 }

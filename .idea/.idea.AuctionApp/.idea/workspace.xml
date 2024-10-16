@@ -9,22 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b24f690-8d93-4e11-b1de-355f685ea305" name="Changes" comment="">
+    <list default="true" id="1b24f690-8d93-4e11-b1de-355f685ea305" name="Changes" comment="refact db acc using linq select / streamline queries">
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/Interfaces/IAuctionRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/Interfaces/IBidRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/Interfaces/IGenericRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/MySqlAuctionPersistence.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/Repositories/AuctionRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/Repositories/BidRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuctionApp/Persistence/Repositories/GenericRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AuctionApp/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Login.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Login.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Register.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Areas/Identity/Pages/Account/Register.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Controllers/AuctionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Controllers/AuctionsController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/Core/AuctionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Core/AuctionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Models/Auctions/AuctionVm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Models/Auctions/AuctionVm.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Models/Auctions/BidVm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Models/Auctions/BidVm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Persistence/AuctionDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Persistence/AuctionDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuctionApp/Persistence/MySqlAucionPersistence.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/AuctionApp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Details.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Edit.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Auctions/MyAccount.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Auctions/MyAccount.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Home/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Home/Privacy.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuctionApp/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AuctionApp/Views/Shared/_Layout.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +43,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/CJPob/AuctionApp.git&quot;,
-    &quot;accountId&quot;: &quot;0e93437f-3973-4d90-a234-2ec896d0b00e&quot;
+    &quot;url&quot;: &quot;https://github.com/CJPob/AuctionApp&quot;,
+    &quot;accountId&quot;: &quot;db3469ae-9b9b-4bec-9a8f-929422cefde5&quot;
   }
 }</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -54,26 +52,34 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2nFlS0FQZUXjROpFoSNz1eUOIoP" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.AuctionApp: IIS Express.executor": "Run",
-    ".NET Launch Settings Profile.AuctionApp: https.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "reorganize-layout-redirections",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.AuctionApp: IIS Express.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.AuctionApp: https.executor&quot;: &quot;Run&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;gen-repo&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.AuctionApp: https">
     <configuration name="AuctionApp: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/AuctionApp/AuctionApp.csproj" />
@@ -130,6 +136,8 @@
       <option name="presentableId" value="Default" />
       <updated>1728576700115</updated>
       <workItem from="1728576701187" duration="29979000" />
+      <workItem from="1728982829541" duration="35308000" />
+      <workItem from="1729021895105" duration="12031000" />
     </task>
     <task id="LOCAL−00001" summary="New repository for an auction application using ASP.NET">
       <option name="closed" value="true" />
@@ -147,7 +155,6 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
-    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="New repository for an auction application using ASP.NET" />
     <option name="LAST_COMMIT_MESSAGE" value="New repository for an auction application using ASP.NET" />
