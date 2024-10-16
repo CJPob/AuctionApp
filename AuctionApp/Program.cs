@@ -4,6 +4,8 @@ using AuctionApp.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AuctionApp.Data;
 using AuctionApp.Persistence;
+using AuctionApp.Persistence.Interfaces;
+using AuctionApp.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +28,18 @@ builder.Services.AddDefaultIdentity<AppIdentityUser>(options =>
 builder.Services.AddScoped<IAuctionService, AuctionService>();
 
 //dependency inj for persistence into service  
-builder.Services.AddScoped<IAuctionPersistence, MySqlAucionPersistence>();
+builder.Services.AddScoped<IAuctionPersistence, MySqlAuctionPersistence>();
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// dependency inj for gen.iface and gen.repo 
+//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+builder.Services.AddScoped<IBidRepository, BidRepository>(); 
+
+
+
 
 // mapper
 builder.Services.AddAutoMapper(typeof(Program));
@@ -47,7 +60,7 @@ app.MapRazorPages();
 app.UseRouting();
 app.UseAuthorization();
 
-// Set AuctionsController's Index page as the default route /home page
+// Set AuctionsController's Index page as the default route /home /start page
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Auctions}/{action=Index}/{id?}"); 
