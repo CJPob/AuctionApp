@@ -23,7 +23,7 @@ public class AuctionRepository : GenericRepository<AuctionDb>, IAuctionRepositor
         return _mapper.Map<List<Auction>>(FindBy(a => a.ExpirationDate >= DateTime.Now).ToList());
     }
 
-    public List<Auction> GetAuctionByUserName(string userName)
+    public List<Auction> GetAuctionsByUserName(string userName)
     {
         return _mapper.Map<List<Auction>>(FindBy(a => a.User == userName).ToList());
     }
@@ -84,5 +84,15 @@ public class AuctionRepository : GenericRepository<AuctionDb>, IAuctionRepositor
         AuctionDb auctionDb = _mapper.Map<AuctionDb>(auction);
         Add(auctionDb);
         Save(); // commit 
-    }
-}
+    }  
+    
+    public bool RemoveAuction(Guid auctionId)
+    {
+        Delete(GetById(auctionId));
+        Save();
+        return true; 
+    }     
+    
+}  
+
+

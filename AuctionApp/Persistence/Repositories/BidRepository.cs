@@ -29,5 +29,10 @@ public class BidRepository : GenericRepository<BidDb>, IBidRepository
         BidDb bidDb = _mapper.Map<BidDb>(bid);
         Add(bidDb);
         Save(); // commit 
+    } 
+    
+    public BidDb GetBidDbById(Guid bidId)
+    {
+        return GetById(bidId);
     }
 }

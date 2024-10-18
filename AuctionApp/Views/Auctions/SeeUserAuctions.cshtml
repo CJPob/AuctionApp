@@ -1,0 +1,41 @@
+@model IEnumerable<AuctionApp.Models.Auction.AuctionVm>
+
+
+<h1>See User's Auctions</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Placed by</th>
+        <th>Start Bid</th>
+        <th>Ends In</th>
+        <th>Actions</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var auction in Model)
+    {
+        <tr>
+            <td>@auction.Name</td>
+            <td>@auction.Desciption</td>
+            <td>@auction.User</td>
+            <td>@auction.OpeningBid</td>
+            <td>@auction.ExpirationDate.ToString("yyyy-MM-dd HH:mm")</td>
+        <td>
+            <a href="@Url.Action("Details", "Auctions", new { id = auction.Id })" 
+               class="btn btn-info">View Details</a>
+        </td>
+        <td>
+            <form asp-action="AdminRemoveAuction" method="post">
+                <input type="hidden" name="auctionId" value="@auction.Id" />
+                <input type="hidden" name="userName" value="@auction.User" />
+                <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
+        </td>
+        </tr>
+    }
+    </tbody>
+</table>
