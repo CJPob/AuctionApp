@@ -98,9 +98,9 @@ public class AuctionService : IAuctionService
         _auctionRepository.EditDescription(auction);
     }
 
-    public List<Auction> GetAuctionByUserName(string userName)
+    public List<Auction> GetAuctionsByUserName(string userName)
     {
-        List<Auction> auctions = _auctionRepository.GetAuctionByUserName(userName);
+        List<Auction> auctions = _auctionRepository.GetAuctionsByUserName(userName);
         return auctions;
     }
 
@@ -108,5 +108,10 @@ public class AuctionService : IAuctionService
     {
         List<Auction> auctions = _auctionRepository.GetAuctionUserHasWon(userName);
         return auctions;
+    }    
+    
+    public bool RemoveAuction(Guid auctionId)
+    {
+        return _auctionRepository.RemoveAuction(auctionId); 
     }
 }

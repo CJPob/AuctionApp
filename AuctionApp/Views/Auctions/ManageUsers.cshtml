@@ -1,0 +1,49 @@
+@model IEnumerable<AuctionApp.Models.Auction.UserVm>
+
+@{
+ViewData["Title"] = "Manage Users";
+}
+
+<h1>Manage Users</h1>
+
+<!-- TempData Messages -->
+@foreach (var message in new[] { "Message", "Error" })
+{
+if (TempData[message] != null)
+{
+<div class="alert @(message == "Error" ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+    @TempData[message]
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+    <tr id="user-@user.Id">
+        <td>@user.UserName</td>
+        <td>@user.Email</td>
+        <td>@string.Join(", ", user.Roles)</td>
+        <td>
+            <!-- "See Auctions" button -->
+            <a href="@Url.Action("SeeUserAuctions", "Auctions", new { userName = user.UserName })" class="btn btn-primary">See Auctions</a>
+
+            <!-- "Remove" button -->
+            <form asp-action="RemoveUser" method="post" asp-route-userId="@user.Id" class="d-inline" onsubmit="return confirm('Are you sure you want to remove this user?');">
+                <button type="submit" class="btn btn-danger">Remove User</button>
+            </form>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

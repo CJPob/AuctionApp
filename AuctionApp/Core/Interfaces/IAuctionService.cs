@@ -14,11 +14,11 @@ public interface IAuctionService
     
     List<Auction> GetAuctionByUserBids(string userName);
 
-    List<Auction> GetAuctionByUserName(string userName);
+    List<Auction> GetAuctionsByUserName(string userName);
     
     Auction GetAuctionDetails(Guid id);
     
     void EditDescription(string userName, string description, Guid auctionId);
-    List<Auction> GetAuctionUserHasWon(string userName);
-
+    List<Auction> GetAuctionUserHasWon(string userName);    
+    bool RemoveAuction(Guid auctionId);
 }

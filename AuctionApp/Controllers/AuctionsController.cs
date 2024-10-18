@@ -11,10 +11,12 @@ namespace AuctionApp.Controllers
     public class AuctionsController : Controller
     {
         private IAuctionService _auctionService;
+        private readonly IUserService _userService;
 
-        public AuctionsController(IAuctionService auctionService)
+        public AuctionsController(IAuctionService auctionService, IUserService userService)
         {
             _auctionService = auctionService;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -122,7 +124,7 @@ namespace AuctionApp.Controllers
 
                 if (filter == "myAuctions")
                 {
-                    auctions = _auctionService.GetAuctionByUserName(userName);
+                    auctions = _auctionService.GetAuctionsByUserName(userName);
                 } 
                 else if (filter == "wonAuctions")
                 {
@@ -141,9 +143,8 @@ namespace AuctionApp.Controllers
             {
                 return BadRequest();
             }
-        }
-
-
+        } 
+        
         public ActionResult PlaceBid(Guid auctionId)
         {
             if (IsUserOwnerOfAuction(auctionId)) return BadRequest();
@@ -255,5 +256,84 @@ namespace AuctionApp.Controllers
                 return false;
             }
         } 
+        
+        
+        [Authorize(Roles = "Admin")]
+        public ActionResult Admin()
+        {
+            return View();
+        }
+        
+        [Authorize(Roles = "Admin")]
+        public ActionResult ManageAuctions()
+        {
+            return View();
+            
+        } 
+        
+        [Authorize(Roles = "Admin")]
+        public ActionResult ManageUsers()
+        {
+            // fetch and see all the users
+            // using the user service and map them onto UserVm
+            var userDtos = _userService.GetAllUsers();
+            var userVms = userDtos.Select(UserVm.FromUserDto).ToList();
+            return View(userVms); 
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveUser(Guid userId)
+        {
+            // get currently loggedin user 
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+
+            // dont let user delete themself
+            if (currentUserId == userId.ToString())
+            {
+                TempData["Error"] = "You cannot remove your own account.";
+                return RedirectToAction("ManageUsers");
+            }
+
+            var success = _userService.DeleteUser(userId);
+            if (success)
+            {
+                TempData["Message"] = "User removed successfully.";
+            }
+            else
+            {
+                TempData["Error"] = "Failed to remove user.";
+            }
+
+            return RedirectToAction("ManageUsers");
+        }
+        
+        [Authorize(Roles = "Admin")]
+        public ActionResult SeeUserAuctions(string userName)
+        {
+            var auctions = _auctionService.GetAuctionsByUserName(userName);
+            var auctionVms = auctions.Select(AuctionVm.FromAuction).ToList();
+            return View(auctionVms);
+        }   
+        
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AdminRemoveAuction(Guid auctionId, string userName)
+        {
+            var success = _auctionService.RemoveAuction(auctionId);
+            if (success)
+            {
+                TempData["Message"] = "Auction removed successfully.";
+            }
+            else
+            {
+                TempData["Error"] = "Failed to remove auction.";
+            }
+
+            return RedirectToAction("SeeUserAuctions", new { userName = userName });
+        }
+
     }
 }   
